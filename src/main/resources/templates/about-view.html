@@ -1,0 +1,49 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+  <title th:text="${title}"/>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+<style>
+  .section-overlay {
+    background: url("/images/summer_beach.png") rgba(0, 0, 0, 0.7); /* Путь к картинке и задаем цвет и прозрачность */
+    background-size: auto;
+    background-repeat: no-repeat;
+    background-blend-mode: multiply;
+    text-align:center; /* Текст по центру */
+    color: #fff; /* Цвет текста */
+    padding: 50px 0; /* Отступ сверху и снизу */
+  }
+</style>
+</head>
+<body>
+<header class="d-flex justify-content-center py-3">
+  <ul class="nav nav-pills">
+    <li class="nav-item"><a href="/" class="nav-link">Главная</a></li>
+    <li class="nav-item"><a href="/about" class="nav-link active" aria-current="page">О проекте</a></li>
+    <li sec:authorize="isAuthenticated()" class="nav-item"><a href="/trips" class="nav-link">Мои путешествия</a></li>
+  </ul>
+  <div class="col-md-3 text-end">
+    <button sec:authorize="!isAuthenticated()" type="button" class="btn btn-outline-primary me-2" onClick="window.location.href='/login'">Войти</button>
+    <button sec:authorize="!isAuthenticated()" type="button" class="btn btn-primary" onClick="window.location.href='/registration'">Регистрация</button>
+    <button sec:authorize="isAuthenticated()" type="button" class="btn btn-outline-primary me-2" onClick="window.location.href='/logout'">Выйти</button>
+  </div>
+</header>
+
+<div class="section-overlay">
+  <div class="col-md-5 p-lg-5 mx-auto my-5">
+    <h1 class="display-4 fw-normal">О проекте</h1>
+    <p class="lead fw-normal">Проект создан в рамках изучения технологий, предоставляемых
+      Spring Framework (MVC, AOP, Hibernate, Security, Boot). После авторизации пользователю будет доступен
+      функционал по добавлению и редактированию собственных коротких статей о путешествиях, где можно
+      рассказать о своём опыте посещения интересных мест, будь то соседний посёлок или вершина горы на другом конце Земли! </p>
+    <a sec:authorize="!isAuthenticated()" class="btn btn-outline-secondary" href="/registration">Попробовать!</a>
+  </div>
+</div>
+
+
+<!--<img src="/images/summer_beach.png" width="1047" height="623" alt="summer_beach"/>-->
+
+<footer th:insert="blocks/footer::footer"></footer>
+</body>
+</html>

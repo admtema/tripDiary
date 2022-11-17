@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title th:text="${title}"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+
+</head>
+<body class="text-center">
+
+
+<div class="container mb-5">
+    <h1>Регистрация</h1>
+    <form action="/registration" method="post">
+        <p>Введите имя пользователя</p>
+        <input type="text" name="username" placeholder="Имя пользователя" class="form-control"><br>
+        <p>Придумайте пароль</p>
+        <input type="text" name="password" placeholder="Пароль" class="form-control"><br>
+        <p>Повторите пароль</p>
+        <input type="text" name="passwordConfirm" placeholder="Повтор пароля" class="form-control"><br>
+        <button type="submit" class="btn btn-success">Зарегистрироваться</button>
+        <p>Уже зарегистрированы? <a href="/login">Войти</a> </p>
+    </form>
+</div>
+<a href="/" align="center">На главную</a></p>
+
+</body>
+
+</html>
