@@ -1,0 +1,43 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <title th:text="${title}"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+</head>
+<body>
+<header class="d-flex justify-content-center py-3">
+    <ul class="nav nav-pills">
+        <li class="nav-item"><a href="/" class="nav-link">Главная</a></li>
+        <li class="nav-item"><a href="/about" class="nav-link">О проекте</a></li>
+        <li sec:authorize="isAuthenticated()" class="nav-item"><a href="/trips" class="nav-link active" aria-current="page">Мои путешествия</a></li>
+    </ul>
+    <div class="col-md-3 text-end">
+        <button sec:authorize="!isAuthenticated()" type="button" class="btn btn-outline-primary me-2" onClick="window.location.href='/login'">Войти</button>
+        <button sec:authorize="!isAuthenticated()" type="button" class="btn btn-primary" onClick="window.location.href='/registration'">Регистрация</button>
+        <button sec:authorize="isAuthenticated()" type="button" class="btn btn-outline-primary me-2" onClick="window.location.href='/logout'">Выйти</button>
+    </div>
+</header>
+
+<div class="container  mb-5">
+    <h1>Добавление путешествия</h1>
+    <form action="/trips/add" method="post">
+        <br><br>
+        <p>Страна поездки:</p>
+    <input type="text" name="country" placeholder="Укажите страну" class="form-control"><br>
+        <p>Основное место:</p>
+    <input type="text" name="place" placeholder="Укажите основное место, о котором хотели бы рассказать" class="form-control"><br>
+        <p>Дата поездки:</p>
+    <input type="month" name="date" placeholder="Дата поездки" class="form-control"><br>
+        <p>Длительность путешествия, дней</p>
+    <input type="number" name="duration" placeholder="Выберите количество дней" class="form-control"><br>
+        <p>Описание путешествия</p>
+    <textarea name="story" placeholder="Опишите кратко ваши впечатления" class="form-control"></textarea><br>
+    <button type="submit" class="btn btn-success">Добавить путешествие</button>
+    </form>
+</div>
+
+<footer th:insert="blocks/footer::footer"></footer>
+
+</body>
+</html>

@@ -11,11 +11,13 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class TripController {
@@ -35,7 +37,7 @@ private UserService userService;
     public String showTripDetails(Model model){
         Trip trip = new Trip();
         model.addAttribute("employee",trip);
-        return "trip-details-view";
+        return "trip-add-or-edit-view";
     }
     @PostMapping("/trips/add")
     public String saveTrip(@RequestParam String country,
@@ -51,6 +53,13 @@ private UserService userService;
         currentUser.addTripToUser(trip);
         tripService.saveTrip(trip);
         return "redirect:/trips";
+    }
+    @GetMapping("/trips/{id}")
+    public String showTripDetails(@PathVariable(value = "id") long id,
+                                  Model model) {
+        Trip trip = tripService.findTripById(id);
+        model.addAttribute("trip", trip);
+        return "trip-details-view";
     }
 
 

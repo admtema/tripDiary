@@ -1,10 +1,17 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
-
     <title th:text="${title}"/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <style>
+        .card-text { font-size: 15px;
+            line-height: 10px; }
+        .bd-placeholder-img {
+            background-image: url("/images/car.png");
+        }
+
+    </style>
 </head>
 <body>
 <header class="d-flex justify-content-center py-3">
@@ -20,14 +27,47 @@
         </div>
 </header>
 
-<p th:text="'Привет, ' + ${title} + '!'" />
-<div class="container mt-5">
-    <h1 align="center">Добро пожаловать в дневник путешествий!</h1>
-</div>
-<div class="container mt-5">
-    <h3 align="center">В данный момент сайт находится в разработке и обладает ограниченным функционалом</h3>
-    <img src="/images/car.png" width="1046" height="729">
-</div>
+<p th:text="'Привет, ' + ${username} + '!'" />
+
+<main>
+    <section class="py-3 text-center container">
+        <div class="row py-lg-5">
+            <div class="col-lg-6 col-md-8 mx-auto">
+                <h1 class="fw-light">Добро пожаловать в дневник путешествий!</h1>
+                <p class="lead text-muted">В данный момент сайт находится в разработке и обладает ограниченным функционалом</p>
+            </div>
+        </div>
+        <div class="container">
+            <img src="/images/car.png" width="523" height="365">
+        </div>
+    </section>
+
+    <div class="album py-5 bg-light">
+        <div class="container">
+
+            <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                <div th:each="trip : ${allTrips}" class="col">
+                    <div class="card shadow-sm">
+                        <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice" focusable="false"><title>Placeholder</title><rect width="100%" height="100%" fill="#55595c"></rect><text x="40%" y="40%" fill="#eceeef" dy=".3em" th:text="${trip.place}"/></svg>
+
+                        <div class="card-body">
+                            <p class="card-text" th:text="'Страна: ' + ${trip.country}"/>
+                            <p class="card-text" th:text="'Дата поездки: ' + ${trip.date}"/>
+                            <p class="card-text" th:text="'Длительность: ' + ${trip.duration}"/>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="btn-group">
+                                    <button type="button" class="btn btn-sm btn-outline-secondary" onClick="window.location.href='/trips/'" >Открыть</button>
+                                </div>
+                                <small class="text-muted" th:text="'Автор: ' + ${trip.username}"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
 
 
 

@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TripServiceImpl implements TripService {
@@ -22,6 +23,12 @@ public class TripServiceImpl implements TripService {
     @Override
     public void saveTrip(Trip trip) {
         tripRepository.save(trip);
+    }
+
+    @Override
+    public Trip findTripById(Long id){
+        Optional<Trip> tripFromDb= tripRepository.findTripById(id);
+        return tripFromDb.orElse(new Trip());
     }
 }
 
