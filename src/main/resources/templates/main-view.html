@@ -56,7 +56,7 @@
                             <p class="card-text" th:text="'Длительность: ' + ${trip.duration}"/>
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="btn-group">
-                                    <button type="button" class="btn btn-sm btn-outline-secondary" onClick="window.location.href='/trips/'" >Открыть</button>
+                                    <a class="btn btn-outline-secondary" th:href="'/trips/' + ${trip.id}">Открыть</a>
                                 </div>
                                 <small class="text-muted" th:text="'Автор: ' + ${trip.username}"/>
                             </div>

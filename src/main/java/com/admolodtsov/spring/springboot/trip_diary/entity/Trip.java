@@ -20,6 +20,9 @@ public class Trip {
     @Column(name="story")
     private String story;
 
+    @Column(name = "views")
+    private long views;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private User user;
@@ -100,5 +103,13 @@ public class Trip {
 
     public void setStory(String story) {
         this.story = story;
+    }
+
+    public long getViews() {
+        return views;
+    }
+
+    public void setViews(long views) {
+        this.views = views;
     }
 }

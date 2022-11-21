@@ -26,9 +26,19 @@ public class TripServiceImpl implements TripService {
     }
 
     @Override
-    public Trip findTripById(Long id){
-        Optional<Trip> tripFromDb= tripRepository.findTripById(id);
+    public Trip findTripById(int id){
+        Optional<Trip> tripFromDb= tripRepository.findById(id);
         return tripFromDb.orElse(new Trip());
+    }
+
+    @Override
+    public boolean existsById (int id){
+       return tripRepository.existsById(id);
+    }
+
+    @Override
+    public void deleteTrip(Trip trip){
+        tripRepository.delete(trip);
     }
 }
 

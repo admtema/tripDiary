@@ -11,5 +11,9 @@ public interface TripService {
 
     public void saveTrip(Trip trip);
 
-    public Trip findTripById(Long id);
+    public Trip findTripById(int id);
+
+    public boolean existsById (int id);
+
+    public void deleteTrip(Trip trip);
 }

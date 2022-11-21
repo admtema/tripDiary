@@ -8,5 +8,5 @@ import java.util.Optional;
 
 public interface TripRepository extends JpaRepository<Trip, Integer> {
 
-    Optional<Trip> findTripById(Long id);
+//    Optional<Trip> findTripById(int id);
 }

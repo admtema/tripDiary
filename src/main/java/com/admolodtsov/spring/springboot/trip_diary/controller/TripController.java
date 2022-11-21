@@ -26,7 +26,7 @@ private TripService tripService;
 @Autowired
 private UserService userService;
 
-    @GetMapping("/trips")
+    @GetMapping("/trips/my")
     public String showAllTrips(Model model){
         List<Trip> allTrips = tripService.getAllTrips();
         model.addAttribute("allTrips", allTrips);
@@ -37,7 +37,7 @@ private UserService userService;
     public String showTripDetails(Model model){
         Trip trip = new Trip();
         model.addAttribute("employee",trip);
-        return "trip-add-or-edit-view";
+        return "trip-add-view";
     }
     @PostMapping("/trips/add")
     public String saveTrip(@RequestParam String country,
@@ -52,15 +52,58 @@ private UserService userService;
         User currentUser = (User)userService.loadUserByUsername(currentUserName);
         currentUser.addTripToUser(trip);
         tripService.saveTrip(trip);
-        return "redirect:/trips";
+        return "redirect:/trips/my";
     }
     @GetMapping("/trips/{id}")
-    public String showTripDetails(@PathVariable(value = "id") long id,
+    public String showTripDetails(@PathVariable(value = "id") int id,
                                   Model model) {
+        if(!tripService.existsById(id)) {
+            return "redirect:/";
+        }
         Trip trip = tripService.findTripById(id);
+        String authorName = trip.getUsername();
         model.addAttribute("trip", trip);
+        model.addAttribute("authorName", authorName);
         return "trip-details-view";
     }
+
+    @GetMapping("/trips/{id}/edit")
+    public String editTripDetails(@PathVariable(value = "id") int id,
+                                  Model model) {
+        if(!tripService.existsById(id)) {
+            return "redirect:/";
+        }
+        Trip trip = tripService.findTripById(id);
+        String authorName = trip.getUsername();
+        model.addAttribute("trip", trip);
+        model.addAttribute("authorName", authorName);
+        return "trip-edit-view";
+    }
+
+    @PostMapping("/trips/{id}/edit")
+    public String updateTrip(@PathVariable(value = "id") int id,
+                           @RequestParam String country,
+                           @RequestParam String place,
+                           @RequestParam String date,
+                           @RequestParam int duration,
+                           @RequestParam String story){
+        Trip trip = tripService.findTripById(id);
+        trip.setCountry(country);
+        trip.setPlace(place);
+        trip.setDate(date);
+        trip.setDuration(duration);
+        trip.setStory(story);
+        tripService.saveTrip(trip);
+        return "redirect:/trips/{id}";
+    }
+
+    @PostMapping("/trips/{id}/remove")
+    public String deleteTrip(@PathVariable(value = "id") int id){
+        Trip trip = tripService.findTripById(id);
+        tripService.deleteTrip(trip);
+        return "redirect:/trips/my";
+    }
+
 
 
 }
