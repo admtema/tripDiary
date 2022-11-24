@@ -40,6 +40,11 @@ public class TripServiceImpl implements TripService {
     public void deleteTrip(Trip trip){
         tripRepository.delete(trip);
     }
+
+    @Override
+    public List<Trip> findAllByUser(User user) {
+        return tripRepository.findTripsByUser(user);
+    }
 }
 
 

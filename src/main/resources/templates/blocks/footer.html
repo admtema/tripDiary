@@ -1,4 +1,28 @@
 <div th:fragment = "footer">
+    <style>
+        @media (min-width: 768px) {
+            .bd-placeholder-img-lg {
+                font-size: 3.5rem;
+            }
+        }
+
+        .bi {
+            vertical-align: -.125em;
+            fill: currentColor;
+        }
+
+
+        .nav-scroller .nav {
+            display: flex;
+            flex-wrap: nowrap;
+            padding-bottom: 1rem;
+            margin-top: -1px;
+            overflow-x: auto;
+            text-align: center;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+        }
+    </style>
     <div class="container">
         <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
             <div class="col-md-4 d-flex align-items-center">
@@ -9,8 +33,9 @@
             </div>
 
             <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
-                <li class="ms-3"><a class="text-muted" href="http://instagram.com/admtema"><svg class="bi" width="24" height="24"><use xlink:href="/images/instagram-circle-logo-svgrepo-com.svg"></use></svg></a></li>
-                <li class="ms-3"><a class="text-muted" href="https://github.com/admtema"><svg class="bi" width="24" height="24"><use xlink:href="/images/github-svgrepo-com.svg"></use></svg></a></li>
+                <li class="ms-3"><a class="text-muted" href="https://vk.com/id33555570"><img class="bi" width="24" height="24" src="/images/vk.svg"></a></li>
+                <li class="ms-3"><a class="text-muted" href="http://instagram.com/admtema"><img class="bi" width="24" height="24" src="/images/instagram-circle-logo-svgrepo-com.svg"></a></li>
+                <li class="ms-3"><a class="text-muted" href="https://github.com/admtema"><img class="bi" width="24" height="24" src="/images/github-svgrepo-com.svg"></a></li>
             </ul>
         </footer>
     </div>

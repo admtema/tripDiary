@@ -16,4 +16,6 @@ public interface TripService {
     public boolean existsById (int id);
 
     public void deleteTrip(Trip trip);
+
+    public List<Trip> findAllByUser(User user);
 }

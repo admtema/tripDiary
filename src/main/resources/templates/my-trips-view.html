@@ -13,8 +13,8 @@
             background-repeat: no-repeat;
             background-blend-mode: multiply;
             text-align:center; /* Текст по центру */
-            color: #4a433d; /* Цвет текста */
             text-shadow: 1px 1px 1px #ffffff;
+            color: #4a433d; /* Цвет текста */
             padding: 0 0; /* Отступ сверху и снизу */
         }
         .article-overlay:hover {
@@ -30,34 +30,26 @@
 <body>
 <header class="d-flex justify-content-center py-3">
     <ul class="nav nav-pills">
-        <li class="nav-item"><a href="/" class="nav-link active" aria-current="page">Главная</a></li>
+        <li class="nav-item"><a href="/" class="nav-link">Главная</a></li>
         <li class="nav-item"><a href="/about" class="nav-link">О проекте</a></li>
-        <li sec:authorize="isAuthenticated()" class="nav-item"><a href="/trips/my" class="nav-link">Мои путешествия</a></li>
+        <li sec:authorize="isAuthenticated()" class="nav-item"><a href="/trips/my" class="nav-link active" aria-current="page">Мои путешествия</a></li>
     </ul>
-        <div class="col-md-3 text-end">
-            <button sec:authorize="!isAuthenticated()" type="button" class="btn btn-outline-primary me-2" onClick="window.location.href='/login'">Войти</button>
-            <button sec:authorize="!isAuthenticated()" type="button" class="btn btn-primary" onClick="window.location.href='/registration'">Регистрация</button>
-            <button sec:authorize="isAuthenticated()" type="button" class="btn btn-outline-primary me-2" onClick="window.location.href='/logout'">Выйти</button>
-        </div>
+    <div class="col-md-3 text-end">
+        <button sec:authorize="!isAuthenticated()" type="button" class="btn btn-outline-primary me-2" onClick="window.location.href='/login'">Войти</button>
+        <button sec:authorize="!isAuthenticated()" type="button" class="btn btn-primary" onClick="window.location.href='/registration'">Регистрация</button>
+        <button sec:authorize="isAuthenticated()" type="button" class="btn btn-outline-primary me-2" onClick="window.location.href='/logout'">Выйти</button>
+    </div>
 </header>
-
-<p th:text="'Привет, ' + ${username} + '!'" />
-
-<main>
-    <section class="py-3 text-center container">
-        <div class="row py-lg-2">
-            <div class="col-lg-6 col-md-8 mx-auto">
-                <h1 class="fw-light">Добро пожаловать в дневник путешествий!</h1>
-                <p class="lead text-muted">Здесь авторизованный пользователь может поделиться своим опытом и впечатлениями от посещённых мест</p>
-            </div>
-        </div>
-    </section>
-
+<h2 align="center" class="blog-post-title">Мои путешествия</h2>
+<br>
+<p align="center">Здесь можно отслеживать, добавлять, редактировать и удалять свои статьи</p>
+<hr>
+<p align="center" th:text="${myTripListIsEmpty}"/>
+<table class="table">
     <div class="album py-5 bg-light">
         <div class="container">
-
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-                <div th:each="trip : ${allTrips}" class="col">
+                <div th:each="trip : ${allMyTrips}" class="col">
                     <div class="card shadow-sm">
                         <a class="article-overlay"  th:href="'/trips/' + ${trip.id}"><h3 th:text="${trip.place}"/></a>
                         <div class="card-body">
@@ -77,9 +69,9 @@
         </div>
     </div>
 
-</main>
-
-
+    <div class="container text-center">
+        <a href="/trips/add" class="btn btn-lg btn-primary fw-bold border-blue bg-blue">Добавить</a>
+    </div>
 
 <footer th:insert="blocks/footer::footer"></footer>
 

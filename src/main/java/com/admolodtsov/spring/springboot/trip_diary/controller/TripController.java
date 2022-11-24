@@ -5,9 +5,10 @@ import com.admolodtsov.spring.springboot.trip_diary.entity.User;
 import com.admolodtsov.spring.springboot.trip_diary.service.TripService;
 import com.admolodtsov.spring.springboot.trip_diary.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,9 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 public class TripController {
@@ -27,10 +26,16 @@ private TripService tripService;
 private UserService userService;
 
     @GetMapping("/trips/my")
-    public String showAllTrips(Model model){
-        List<Trip> allTrips = tripService.getAllTrips();
-        model.addAttribute("allTrips", allTrips);
-        return "trips-view";
+    public String showMyTrips(Model model){
+        User authorizedUser = (User)SecurityContextHolder.getContext()
+                .getAuthentication().getPrincipal();
+        List<Trip> allMyTrips = tripService.findAllByUser(authorizedUser);
+        model.addAttribute("allMyTrips", allMyTrips);
+        String myTripListIsEmpty = "Пока что у вас нет добавленных статей...";
+                if(allMyTrips.isEmpty()){
+                    model.addAttribute("myTripListIsEmpty", myTripListIsEmpty);
+                }
+        return "my-trips-view";
     }
 
     @GetMapping("/trips/add")
@@ -64,12 +69,15 @@ private UserService userService;
         String authorName = trip.getUsername();
         model.addAttribute("trip", trip);
         model.addAttribute("authorName", authorName);
+        trip.setViews(trip.getViews()+1);
+        tripService.saveTrip(trip);
         return "trip-details-view";
     }
 
+    @PreAuthorize("#authorName == authentication.name")
     @GetMapping("/trips/{id}/edit")
     public String editTripDetails(@PathVariable(value = "id") int id,
-                                  Model model) {
+                                  Model model, @Param(value = "authorName") String name) {
         if(!tripService.existsById(id)) {
             return "redirect:/";
         }
