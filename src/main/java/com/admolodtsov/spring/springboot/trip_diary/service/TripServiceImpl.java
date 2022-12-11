@@ -26,6 +26,11 @@ public class TripServiceImpl implements TripService {
     }
 
     @Override
+    public void updateTrip(Trip trip) {
+        tripRepository.save(trip);
+    }
+
+    @Override
     public Trip findTripById(int id){
         Optional<Trip> tripFromDb= tripRepository.findById(id);
         return tripFromDb.orElse(new Trip());

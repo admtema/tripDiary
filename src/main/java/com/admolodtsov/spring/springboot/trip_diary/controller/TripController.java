@@ -26,9 +26,12 @@ private TripService tripService;
 private UserService userService;
 
     @GetMapping("/trips/my")
+    /* Отображение вида со списком постов текущего авторизованного пользователя */
     public String showMyTrips(Model model){
-        User authorizedUser = (User)SecurityContextHolder.getContext()
-                .getAuthentication().getPrincipal();
+        Authentication authentication = SecurityContextHolder.getContext()
+                .getAuthentication();
+        User authorizedUser = (User)authentication.getPrincipal();
+        String currentUserName = authentication.getName();
         List<Trip> allMyTrips = tripService.findAllByUser(authorizedUser);
         model.addAttribute("allMyTrips", allMyTrips);
         String myTripListIsEmpty = "Пока что у вас нет добавленных статей...";
@@ -38,13 +41,17 @@ private UserService userService;
         return "my-trips-view";
     }
 
-    @GetMapping("/trips/add")
-    public String showTripDetails(Model model){
+    @GetMapping("/trips/my/add")
+    /* Отображение вида с формой для заполнения атрибутов и сохранения нового поста */
+    public String newTripDetails(Model model){
         Trip trip = new Trip();
-        model.addAttribute("employee",trip);
+        model.addAttribute("trip",trip);
         return "trip-add-view";
     }
-    @PostMapping("/trips/add")
+    @PostMapping("/trips/my/add")
+    /* Создание нового объекта, присвоение ему введенных атрибутов из формы, получение имени
+    авторизованного пользователя, присвоение его в качестве атрибута для нового объекта, сохранение нового
+    объекта в БД*/
     public String saveTrip(@RequestParam String country,
                           @RequestParam String place,
                           @RequestParam String date,
@@ -60,7 +67,23 @@ private UserService userService;
         return "redirect:/trips/my";
     }
     @GetMapping("/trips/{id}")
+    /* Отображение вида с конкретным постом и его атрибутами по id, взятому из URL,
+    увеличение счетчика числа просмотров для поста на 1 */
     public String showTripDetails(@PathVariable(value = "id") int id,
+                                  Model model) {
+        if(!tripService.existsById(id)) {
+            return "redirect:/";
+        }
+        Trip trip = tripService.findTripById(id);
+        model.addAttribute("trip", trip);
+        trip.setViews(trip.getViews()+1);
+        tripService.saveTrip(trip);
+        return "trip-details-view";
+    }
+
+    @GetMapping("/trips/my/{id}")
+       /* Отображение вида с конкретным постом авторизованного пользователя по id, взятому из URL */
+    public String showMyTripDetails(@PathVariable(value = "id") int id,
                                   Model model) {
         if(!tripService.existsById(id)) {
             return "redirect:/";
@@ -69,26 +92,24 @@ private UserService userService;
         String authorName = trip.getUsername();
         model.addAttribute("trip", trip);
         model.addAttribute("authorName", authorName);
-        trip.setViews(trip.getViews()+1);
-        tripService.saveTrip(trip);
-        return "trip-details-view";
+        return "my-trip-details-view";
     }
 
-    @PreAuthorize("#authorName == authentication.name")
-    @GetMapping("/trips/{id}/edit")
+
+    @GetMapping("/trips/my/{id}/edit")
+    /* Отображение вида с полями и введенными в них атрибутами поездки, найденной по id из URL адреса */
     public String editTripDetails(@PathVariable(value = "id") int id,
-                                  Model model, @Param(value = "authorName") String name) {
+                                  Model model) {
         if(!tripService.existsById(id)) {
             return "redirect:/";
         }
         Trip trip = tripService.findTripById(id);
-        String authorName = trip.getUsername();
         model.addAttribute("trip", trip);
-        model.addAttribute("authorName", authorName);
         return "trip-edit-view";
     }
 
-    @PostMapping("/trips/{id}/edit")
+    @PostMapping("/trips/my/{id}/edit")
+    /* Сохранение существующей поездки с id из URL адреса, с атрибутами, взятыми из формы */
     public String updateTrip(@PathVariable(value = "id") int id,
                            @RequestParam String country,
                            @RequestParam String place,
@@ -101,11 +122,12 @@ private UserService userService;
         trip.setDate(date);
         trip.setDuration(duration);
         trip.setStory(story);
-        tripService.saveTrip(trip);
-        return "redirect:/trips/{id}";
+        tripService.updateTrip(trip);
+        return "redirect:/trips/my/{id}";
     }
 
-    @PostMapping("/trips/{id}/remove")
+    @PostMapping("/trips/my/{id}/remove")
+    /* Удаление поездки по id, указанному в URL-адресе */
     public String deleteTrip(@PathVariable(value = "id") int id){
         Trip trip = tripService.findTripById(id);
         tripService.deleteTrip(trip);

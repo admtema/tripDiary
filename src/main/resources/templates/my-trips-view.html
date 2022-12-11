@@ -51,14 +51,14 @@
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
                 <div th:each="trip : ${allMyTrips}" class="col">
                     <div class="card shadow-sm">
-                        <a class="article-overlay"  th:href="'/trips/' + ${trip.id}"><h3 th:text="${trip.place}"/></a>
+                        <a class="article-overlay"  th:href="'/trips/my/' + ${trip.id}"><h3 th:text="${trip.place}"/></a>
                         <div class="card-body">
                             <p class="card-text" th:text="'Страна: ' + ${trip.country}"/>
                             <p class="card-text" th:text="'Дата поездки: ' + ${trip.date}"/>
                             <p class="card-text" th:text="'Автор: ' + ${trip.username}"/>
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="btn-group">
-                                    <a class="btn btn-outline-secondary" th:href="'/trips/' + ${trip.id}">Открыть</a>
+                                    <a class="btn btn-outline-secondary" th:href="'/trips/my/' + ${trip.id}">Открыть</a>
                                 </div>
                                 <small class="text-muted" th:text="'Просмотров: ' + ${trip.views}"/>
                             </div>
@@ -68,9 +68,9 @@
             </div>
         </div>
     </div>
-
+</table>
     <div class="container text-center">
-        <a href="/trips/add" class="btn btn-lg btn-primary fw-bold border-blue bg-blue">Добавить</a>
+        <a href="/trips/my/add" class="btn btn-lg btn-primary fw-bold border-blue bg-blue">Добавить</a>
     </div>
 
 <footer th:insert="blocks/footer::footer"></footer>

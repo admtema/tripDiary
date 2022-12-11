@@ -5,10 +5,6 @@
     <title th:text="${title}"/>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
-    <style>
-
-
-    </style>
 </head>
 <body>
 <header class="d-flex justify-content-center py-3">
@@ -28,21 +24,12 @@
 
     <article class="blog-post">
         <h2 class="blog-post-title mb-1" th:text ="${trip.place}"></h2>
-        <p class="blog-post-meta">Автор: <a th:text="${authorName}" href="/users/"></a></p>
+        <p class="blog-post-meta">Автор: <a th:text="${trip.username}" href="/users/"></a></p>
         <p class="blog-post-meta">Просмотров: <span th:text ="${trip.views}"></span></p>
         <p class="blog-post-meta">Дата поездки: <span th:text ="${trip.date}"></span></p>
         <p class="blog-post-meta">Длительность поездки: <span th:text ="${trip.duration}"></span></p>
         <p th:text ="${trip.story}"></p>
     </article>
-
-
-    <nav class="blog-pagination" aria-label="Pagination">
-        <a sec:authorize="isAuthenticated()"  class="btn btn-outline-primary rounded-pill" th:href="${trip.id} + '/edit'">Редактировать</a>
-        <br><br>
-        <form th:action="'/trips/' + ${trip.id} + '/remove'" method="post">
-        <button class="btn btn-outline-secondary rounded-pill" type="submit">Удалить</button>
-        </form>
-    </nav>
 
 </div>
 

@@ -5,6 +5,7 @@ import com.admolodtsov.spring.springboot.trip_diary.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -12,6 +13,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     UserService userService;
@@ -31,14 +33,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .disable()
                 .authorizeRequests()
 
+                //Доступ для всех
+                .antMatchers("/","/images/**","/about").permitAll()
                 //Доступ только для НЕзарегистрированных пользователей
                 .antMatchers("/registration").not().fullyAuthenticated()
-                //Доступ только для пользователей с ролью Администратор
+                //Доступ только для админа
                 .antMatchers("/admin/**").hasRole("ADMIN")
+                //Доступ только для зарегистрированных пользователей и админа
+                .antMatchers("/trips/my/add").hasAnyRole("USER","ADMIN")
                 //Доступ только для зарегистрированных пользователей
-                .antMatchers("/trips/add").hasAnyRole("USER","ADMIN")
+                .antMatchers("/trips/my/{id}").hasRole("USER")
                 //Все остальные страницы требуют аутентификации
-                .antMatchers("/","/about","/images/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 //Настройка для входа в систему
