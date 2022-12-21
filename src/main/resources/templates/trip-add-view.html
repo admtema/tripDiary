@@ -5,6 +5,11 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
 </head>
+<style>
+    .error-text{
+        color: crimson;
+    }
+</style>
 <body>
 <header class="d-flex justify-content-center py-3">
     <ul class="nav nav-pills">
@@ -21,18 +26,28 @@
 
 <div class="container  mb-5">
     <h1>Добавление путешествия</h1>
-    <form action="/trips/my/add" method="post">
+    <form action="#" th:action="@{/trips/my/add}" th:object="${trip}" method="post">
         <br><br>
         <p>Страна поездки:</p>
-    <input type="text" name="country" placeholder="Укажите страну" class="form-control"><br>
+        <p th:if="${#fields.hasErrors('country')}" th:errors="*{country}" class ="error-text">Ошибка</p>
+    <input type="text" name="country" th:field="*{country}" placeholder="Укажите страну" class="form-control">
+        <br>
         <p>Основное место:</p>
-    <input type="text" name="place" placeholder="Укажите основное место, о котором хотели бы рассказать" class="form-control"><br>
+        <p th:if="${#fields.hasErrors('place')}" th:errors="*{place}" class ="error-text">Ошибка</p>
+    <input type="text" name="place" th:field="*{place}" placeholder="Укажите основное место, о котором хотели бы рассказать" class="form-control">
+        <br>
         <p>Дата поездки:</p>
-    <input type="month" name="date" placeholder="Дата поездки" class="form-control"><br>
+        <p th:if="${#fields.hasErrors('date')}" th:errors="*{date}" class ="error-text">Ошибка</p>
+    <input type="month" name="date" th:field="*{date}" placeholder="Дата поездки" class="form-control">
+        <br>
         <p>Длительность путешествия, дней</p>
-    <input type="number" name="duration" placeholder="Выберите количество дней" class="form-control"><br>
+        <p th:if="${#fields.hasErrors('duration')}" th:errors="*{duration}" class ="error-text">Ошибка</p>
+    <input type="number" name="duration" th:field="*{duration}" placeholder="Выберите количество дней" class="form-control">
+        <br>
         <p>Описание путешествия</p>
-    <textarea name="story" placeholder="Опишите кратко ваши впечатления" class="form-control"></textarea><br>
+        <p th:if="${#fields.hasErrors('story')}" th:errors="*{story}" class ="error-text">Ошибка</p>
+    <textarea name="story" th:field="*{story}" placeholder="Опишите кратко ваши впечатления" class="form-control"></textarea>
+        <br>
     <button type="submit" class="btn btn-success">Добавить путешествие</button>
     </form>
 </div>

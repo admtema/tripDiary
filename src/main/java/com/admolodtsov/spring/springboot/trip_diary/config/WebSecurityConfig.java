@@ -32,7 +32,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf()
                 .disable()
                 .authorizeRequests()
-
                 //Доступ для всех
                 .antMatchers("/","/images/**","/about").permitAll()
                 //Доступ только для НЕзарегистрированных пользователей
@@ -40,9 +39,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 //Доступ только для админа
                 .antMatchers("/admin/**").hasRole("ADMIN")
                 //Доступ только для зарегистрированных пользователей и админа
-                .antMatchers("/trips/my/add").hasAnyRole("USER","ADMIN")
+                .antMatchers("/trips/my/add", "/trips/my/{id}").hasAnyRole("USER","ADMIN")
                 //Доступ только для зарегистрированных пользователей
-                .antMatchers("/trips/my/{id}").hasRole("USER")
+//                .antMatchers().hasRole("USER")
                 //Все остальные страницы требуют аутентификации
                 .anyRequest().authenticated()
                 .and()

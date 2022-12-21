@@ -5,6 +5,7 @@ import org.springframework.security.core.parameters.P;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -17,10 +18,15 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Size(min=3, message = "Не меньше 3 знаков")
+    @NotBlank(message ="поле обязательное для заполнения")
+    @Size(min=3, message = "Имя должно содержать не менее 3 знаков")
+    @Size(max = 20, message = "Имя должно содержать не более 20 знаков")
     private String username;
-    @Size(min=3, message = "Не меньше 3 знаков")
+    @NotBlank(message ="поле обязательное для заполнения")
+    @Size(min=3, message = "Пароль должен содержать меньше 3 знаков")
+    @Size(max = 30, message = "Пароль должен содержать не более 30 знаков")
     private String password;
+    @NotBlank(message ="поле обязательное для заполнения")
     @Transient
     private String passwordConfirm;
     @ManyToMany(fetch = FetchType.EAGER)

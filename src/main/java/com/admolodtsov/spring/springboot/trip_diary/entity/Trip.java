@@ -1,6 +1,7 @@
 package com.admolodtsov.spring.springboot.trip_diary.entity;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 
 @Entity
 @Table(name="trips")
@@ -9,14 +10,26 @@ public class Trip {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name="id")
     private int id;
+    @NotBlank(message ="'поле обязательное для заполнения'")
+    @Size(min= 2, message ="поле должно содержать минимум 2 символа")
     @Column(name="country")
     private String country;
+    @NotBlank(message ="'поле обязательное для заполнения'")
+    @Size(min= 2, message ="поле должно содержать минимум 2 символа")
+    @Size(max = 30, message ="постарайтесь более коротко наименовать место")
     @Column(name="place")
     private String place;
+    @NotBlank(message ="'поле обязательное для заполнения'")
     @Column(name="trip_date")
     private String date;
+
     @Column(name="duration")
+    @Min(value = 1, message = "значение должно быть не менее 1")
+    @Max(value = 1000, message = "значение должно быть не более 1000")
     private int duration;
+    @NotBlank(message ="'поле обязательное для заполнения'")
+    @Size(min= 20, message ="слишком короткое описание")
+    @Size(max = 5000, message ="слишком длинное описание, постарайтесь более кратко изложить вашу историю")
     @Column(name="story")
     private String story;
 
