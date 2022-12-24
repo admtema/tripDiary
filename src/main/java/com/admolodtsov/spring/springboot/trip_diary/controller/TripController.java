@@ -60,6 +60,7 @@ private UserService userService;
             String currentUserName = authentication.getName();
             User currentUser = (User) userService.loadUserByUsername(currentUserName);
             currentUser.addTripToUser(trip);
+            currentUser.setNumberOfTrips();
             tripService.saveTrip(trip);
             return "redirect:/trips/my";
         }
@@ -106,24 +107,6 @@ private UserService userService;
         return "trip-edit-view";
     }
 
-//    @PostMapping("/trips/my/{id}/edit")
-//    /* Сохранение существующей поездки с id из URL адреса, с атрибутами, взятыми из формы */
-//    public String updateTrip(@PathVariable(value = "id") int id,
-//                             @RequestParam String country,
-//                             @RequestParam String place,
-//                             @RequestParam String date,
-//                             @RequestParam int duration,
-//                             @RequestParam String story){
-//        Trip trip = tripService.findTripById(id);
-//        trip.setCountry(country);
-//        trip.setPlace(place);
-//        trip.setDate(date);
-//        trip.setDuration(duration);
-//        trip.setStory(story);
-//        tripService.updateTrip(trip);
-//        return "redirect:/trips/my/{id}";
-//    }
-
     @PostMapping("/trips/my/{id}/edit")
     /* Сохранение существующей поездки с id из URL адреса, с атрибутами, взятыми из формы */
     public String updateTrip(@PathVariable(value = "id") int id,
@@ -134,7 +117,6 @@ private UserService userService;
             return "trip-edit-view";
         }
         else {
-
             Trip trip = tripService.findTripById(id);
             trip.setCountry(newTrip.getCountry());
             trip.setPlace(newTrip.getPlace());

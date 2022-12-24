@@ -33,6 +33,7 @@
         <li class="nav-item"><a href="/" class="nav-link active" aria-current="page">Главная</a></li>
         <li class="nav-item"><a href="/about" class="nav-link">О проекте</a></li>
         <li sec:authorize="isAuthenticated()" class="nav-item"><a href="/trips/my" class="nav-link">Мои путешествия</a></li>
+        <li sec:authorize="hasRole('ADMIN')" class="nav-item"><a href="/admin" class="nav-link">Администратор</a></li>
     </ul>
         <div class="col-md-3 text-end">
             <button sec:authorize="!isAuthenticated()" type="button" class="btn btn-outline-primary me-2" onClick="window.location.href='/login'">Войти</button>
@@ -55,7 +56,6 @@
 
     <div class="album py-5 bg-light">
         <div class="container">
-
             <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
                 <div th:each="trip : ${allTrips}" class="col">
                     <div class="card shadow-sm">
@@ -76,12 +76,7 @@
             </div>
         </div>
     </div>
-
 </main>
-
-
-
-<footer th:insert="blocks/footer::footer"></footer>
-
 </body>
+<footer th:insert="blocks/footer::footer"></footer>
 </html>

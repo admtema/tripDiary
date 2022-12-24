@@ -33,6 +33,7 @@
         <li class="nav-item"><a href="/" class="nav-link">Главная</a></li>
         <li class="nav-item"><a href="/about" class="nav-link">О проекте</a></li>
         <li sec:authorize="isAuthenticated()" class="nav-item"><a href="/trips/my" class="nav-link active" aria-current="page">Мои путешествия</a></li>
+        <li sec:authorize="hasRole('ADMIN')" class="nav-item"><a href="/admin" class="nav-link">Администратор</a></li>
     </ul>
     <div class="col-md-3 text-end">
         <button sec:authorize="!isAuthenticated()" type="button" class="btn btn-outline-primary me-2" onClick="window.location.href='/login'">Войти</button>

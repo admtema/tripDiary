@@ -29,6 +29,18 @@ public class User implements UserDetails {
     @NotBlank(message ="поле обязательное для заполнения")
     @Transient
     private String passwordConfirm;
+
+    @Transient
+    private int numberOfTrips;
+
+    public void setNumberOfTrips() {
+        this.numberOfTrips = this.getTrips().size();
+    }
+
+    public int getNumberOfTrips() {
+        return numberOfTrips;
+    }
+
     @ManyToMany(fetch = FetchType.EAGER)
     private Set<Role> roles;
 
