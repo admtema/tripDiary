@@ -60,7 +60,6 @@ private UserService userService;
             String currentUserName = authentication.getName();
             User currentUser = (User) userService.loadUserByUsername(currentUserName);
             currentUser.addTripToUser(trip);
-            currentUser.setNumberOfTrips();
             tripService.saveTrip(trip);
             return "redirect:/trips/my";
         }

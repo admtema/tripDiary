@@ -34,7 +34,6 @@ public class AdminController {
     public String deleteUser(@PathVariable("userID") Long userId,
                              @RequestParam(required = true, defaultValue = "" ) String action,
                              Model model) {
-        User user = userService.findUserById(userId);
         if (action.equals("УДАЛИТЬ")){
             userService.deleteUser(userId);
         }
@@ -47,11 +46,14 @@ public class AdminController {
         return "admin-view";
     }
 
-    @GetMapping("/{userId}")
+    @GetMapping("admin/{userId}")
     public String getUserDetails(@PathVariable("userId") Long userId, Model model) {
         User user = userService.findUserById(userId);
         model.addAttribute("user", user);
         model.addAttribute("allUserTrips", tripService.findAllByUser(user));
         return "user-details-view";
     }
+
+
+
 }
