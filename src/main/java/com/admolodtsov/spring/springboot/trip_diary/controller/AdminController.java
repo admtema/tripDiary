@@ -30,7 +30,7 @@ public class AdminController {
         return "admin-view";
     }
 
-    @PostMapping("//{userId}/remove")
+    @PostMapping("/{userId}/remove")
     public String deleteUser(@PathVariable("userID") Long userId,
                              @RequestParam(required = true, defaultValue = "" ) String action,
                              Model model) {
@@ -46,7 +46,7 @@ public class AdminController {
         return "admin-view";
     }
 
-    @GetMapping("admin/{userId}")
+    @GetMapping("users/{userId}")
     public String getUserDetails(@PathVariable("userId") Long userId, Model model) {
         User user = userService.findUserById(userId);
         model.addAttribute("user", user);

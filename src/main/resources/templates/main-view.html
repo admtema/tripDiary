@@ -63,7 +63,7 @@
                         <div class="card-body">
                             <p class="card-text" th:text="'Страна: ' + ${trip.country}"/>
                             <p class="card-text" th:text="'Дата поездки: ' + ${trip.date}"/>
-                            <p class="card-text" th:text="'Автор: ' + ${trip.username}"/>
+                            <a class="card-text" th:text="'Автор: ' + ${trip.username}"/>
                             <div class="d-flex justify-content-between align-items-center">
                                 <div class="btn-group">
                                     <a class="btn btn-outline-secondary" th:href="'/trips/' + ${trip.id}">Открыть</a>

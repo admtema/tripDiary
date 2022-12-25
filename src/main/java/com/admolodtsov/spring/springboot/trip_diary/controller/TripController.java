@@ -74,6 +74,7 @@ private UserService userService;
         }
         Trip trip = tripService.findTripById(id);
         model.addAttribute("trip", trip);
+        model.addAttribute("userId", trip.getUser().getId());
         trip.setViews(trip.getViews()+1);
         tripService.saveTrip(trip);
         return "trip-details-view";
@@ -134,6 +135,14 @@ private UserService userService;
         Trip trip = tripService.findTripById(id);
         tripService.deleteTrip(trip);
         return "redirect:/trips/my";
+    }
+
+    @PostMapping("/trips/{id}/remove")
+    /* Удаление поездки по id, указанному в URL-адресе от имени Администратора */
+    public String deleteTripAsAdmin(@PathVariable(value = "id") int id){
+        Trip trip = tripService.findTripById(id);
+        tripService.deleteTrip(trip);
+        return "redirect:/admin";
     }
 
 
