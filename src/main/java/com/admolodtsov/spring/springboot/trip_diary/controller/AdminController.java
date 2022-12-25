@@ -30,15 +30,18 @@ public class AdminController {
         return "admin-view";
     }
 
-    @PostMapping("/{userId}/remove")
-    public String deleteUser(@PathVariable("userID") Long userId,
-                             @RequestParam(required = true, defaultValue = "" ) String action,
-                             Model model) {
-        if (action.equals("УДАЛИТЬ")){
-            userService.deleteUser(userId);
-        }
-        return "redirect:/admin";
+    @PostMapping("/users/{userID}/remove")
+    /* Удаление пользователя по id, указанному в URL-адресе */
+    public String deleteUser(@PathVariable(value = "userID") Long userId){
+//                             @RequestParam(required = true, defaultValue = "") String action,
+//                             Model model) {
+//        if (action.equals("УДАЛИТЬ")){
+//            userService.deleteUser(userId);
+//        }
+        userService.deleteUser(userId);
+        return "redirect:/users";
     }
+
 
     @GetMapping("/admin/get/{userId}")
     public String getUser(@PathVariable("userId") Long userId, Model model) {

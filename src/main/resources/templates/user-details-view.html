@@ -20,7 +20,11 @@
 </header>
 <body>
 <h3 class="border-bottom pb-2 mb-0">Информация о пользователе</h3>
-
+<br><br>
+<!-- Кнопка-триггер модального окна -->
+<button sec:authorize="hasRole('ADMIN')" type="button" class="btn btn-outline-secondary rounded-pill" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    Удалить аккаунт пользователя
+</button>
 <h4 class="border-bottom pb-2 mb-0">Публикации пользователя</h4>
 <div class="my-3 p-3 bg-body rounded shadow-sm">
     <div class="d-flex text-muted pt-3"  th:each="trip : ${allUserTrips}">
@@ -32,6 +36,26 @@
                 <div class="btn-group">
                     <a class="btn btn-outline-secondary" th:href="'/trips/' + ${trip.id}">Открыть</a>
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Модальное окно -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Подтверждение удаления</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Закрыть"></button>
+            </div>
+            <div class="modal-body">
+                <span th:text ="'Вы действительно хотите безвозвратно удалить аккаунт пользователя ' + ${user.username} + '?'"></span>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                <form sec:authorize="isAuthenticated()" th:action="'/users/' + ${user.id} + '/remove'" method="post">
+                    <button class="btn btn-primary" type="submit">Удалить</button>
+                </form>
             </div>
         </div>
     </div>
