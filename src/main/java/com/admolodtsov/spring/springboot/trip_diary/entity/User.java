@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,7 +24,6 @@ public class User implements UserDetails {
     private String username;
     @NotBlank(message ="поле обязательное для заполнения")
     @Size(min=3, message = "Пароль должен содержать меньше 3 знаков")
-    @Size(max = 30, message = "Пароль должен содержать не более 30 знаков")
     private String password;
     @NotBlank(message ="поле обязательное для заполнения")
     @Transient
